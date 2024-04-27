@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://dainnhs333tdp"]
+
+[ext_resource type="Script" path="res://scripts/Dalle3.gd" id="1_1khdw"]
+[ext_resource type="Script" path="res://scripts/util/GenerationProgressSpinner.gd" id="1_ws3rs"]
+
+[sub_resource type="Gradient" id="Gradient_k23qj"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vvesk"]
+gradient = SubResource("Gradient_k23qj")
+fill_from = Vector2(0.141026, 0.0598291)
+fill_to = Vector2(0.141026, 0.948718)
+
+[node name="DalleTextureRect" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 4
+script = ExtResource("1_1khdw")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 24.0
+fill_mode = 4
+nine_patch_stretch = true
+texture_progress = SubResource("GradientTexture2D_vvesk")
+script = ExtResource("1_ws3rs")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[connection signal="finished_generating" from="." to="TextureProgressBar" method="_on_finished_generating"]
+[connection signal="started_generating" from="." to="TextureProgressBar" method="_on_dalle_texture_rect_started_generating"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_http_request_completed"]
